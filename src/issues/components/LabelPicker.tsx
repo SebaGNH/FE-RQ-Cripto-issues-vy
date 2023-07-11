@@ -1,6 +1,7 @@
 // import { useQuery } from "@tanstack/react-query";
 // import axios from 'axios';
 import { useLabelsHook } from "../../hooks/useLabelsHook";
+import { FC } from 'react';
 
 
 // Convertido a custom hook
@@ -10,7 +11,13 @@ import { useLabelsHook } from "../../hooks/useLabelsHook";
   return data;
 } */
 
-export const LabelPicker = () => {
+// se crea en el hijo, quien recibe la data
+interface Props {
+  selectedLabels: string[];
+  onChange: (labelName: string) => void;
+}
+// FC de functional component y lo importamos
+export const LabelPicker: FC<Props> = ({selectedLabels, onChange}) => {
 
   // Convertido a custom hook
   //const {data: datalbl} = useQuery(['labels'], getLabels);
@@ -27,8 +34,9 @@ export const LabelPicker = () => {
           data?.map( (date : any)=> (
             <span
                 key={date.id}
-                className="badge rounded-pill m-1 label-picker"
+                className={`badge rounded-pill m-1 label-picker ${ selectedLabels.includes(date.name) ? 'label-active':'' } `}
                 style={{ border: `1px solid #${date.color}`, color: `#${date.color}` }}
+                onClick={ () => onChange(date.name)}
             >
                 {date.name}
             </span>
