@@ -1,11 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from 'axios';
 import { sleep } from "../helpers/sleep";
+import { githubApi } from "../helpers/githubApi";
+import { Label } from "../interfaces/label";
 
-const getLabels = async () => {
+const getLabels01 = async () => {
   await sleep(1); // Demora 2 segundos con el helper que creamos
   const urlAPI = `https://api.github.com/repos/facebook/react/labels`;
   const { data } = await axios.get(urlAPI);
+  return data;
+}
+
+
+const getLabels = async ():Promise<Label[]> => {
+  await sleep(1);
+
+  const { data } = await githubApi.get<Label[]>('/labels')// ,
+  // { // Los comenté ya que me daba error y seguía funcionando je
+  //   headers: { // es para sobrescribir la autorización
+  //     Authorization: null
+  // }
+  // }
   return data;
 }
 
